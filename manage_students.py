@@ -1,0 +1,83 @@
+"""
+學生管理：學生的新增、修改、刪除和查詢。
+新增、修改前用 data_checks 檢查；不 print、不讀寫檔案。
+"""
+
+from data_formats import Student
+import data_checks
+
+
+def add_student(db: dict, student: Student) -> list[str]:
+    """新增一位學生；有錯誤時不新增。
+
+    參數：
+        db：全部資料
+        student：要新增的學生
+
+    回傳：
+        data_checks.check_student 的錯誤清單；沒有錯誤時新增成功，回傳 []
+
+    例子：
+        add_student(db, Student("S001", "王小明", "資工一")) → []
+        再新增一次 S001 → ["學號已存在：S001"]
+
+    對應需求：F1-01
+    """
+    raise NotImplementedError
+
+
+def update_student(db: dict, student: Student) -> list[str]:
+    """修改一位學生，用新資料取代同學號的舊資料；有錯誤時不修改。
+
+    參數：
+        db：全部資料
+        student：修改後的學生
+
+    回傳：
+        data_checks.check_student 的錯誤清單；沒有錯誤時修改成功，回傳 []
+
+    例子：
+        update_student(db, Student("S001", "王小明", "資工二")) → []
+        update_student(db, Student("S999", "李小華", "資工一")) → ["找不到學生：S999"]
+
+    對應需求：F1-01
+    """
+    raise NotImplementedError
+
+
+def delete_student(db: dict, student_id: str) -> list[str]:
+    """刪除一位學生和他的所有選課紀錄。
+
+    參數：
+        db：全部資料
+        student_id：學號
+
+    回傳：
+        錯誤清單，刪除成功時是 []。錯誤文字："找不到學生：{學號}"
+
+    例子：
+        delete_student(db, "S001") → []
+        delete_student(db, "S999") → ["找不到學生：S999"]
+
+    對應需求：F1-01、F1-07
+    """
+    raise NotImplementedError
+
+
+def get_student(db: dict, student_id: str) -> Student | None:
+    """用學號查一位學生。
+
+    參數：
+        db：全部資料
+        student_id：學號
+
+    回傳：
+        找到時回傳 Student，找不到時回傳 None
+
+    例子：
+        get_student(db, "S001") → Student("S001", "王小明", "資工一", 24)
+        get_student(db, "S999") → None
+
+    對應需求：F1-01
+    """
+    raise NotImplementedError

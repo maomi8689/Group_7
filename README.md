@@ -1,74 +1,50 @@
-# Group 7 - 學生與課程管理模組 (Class_student_course.py)
-## 檔案結構
+# 選課與校園活動規劃系統（Group 7）
 
-* `Class_student_course.py`：包含 `Course` 與 `Student` 的類別實作與測試代碼。
+計算機程式設計團體作業，Python 命令列程式。
 
-## 類別規格說明
+## 執行方式
 
-### 1. Course (課程類別)
+需要 Python 3.10 以上；測試用 pytest（`pip install pytest`）。在專案最上層資料夾執行：
 
-| 屬性名稱 (Attribute) | 資料型態 (Type) | 說明 |
-| :--- | :--- | :--- |
-| `course_id` | `str` | 課程編號 |
-| `course_name` | `str` | 課程名稱 |
-| `credit` | `int` | 課程學分 |
-| `is_required` | `bool` | 是否為必修課 (`True`/`False`) |
-| `instructor` | `str` | 指導教授 |
-| `students_limit` | `int` | 學生人數上限 |
-| `classroom` | `str` | 上課教室 |
-| `schedule` | `dict[str, list[int]]` | 上課時間表（星期對應節次） |
-
-> **排課時段說明**：
-> `schedule` 鍵為星期（如 `"Monday"`），值為節次陣列。字母節次請轉為對應數字（例：A 節 = 10、B 節 = 11、C 節 = 12，以此類推）。
-
----
-
-### 2. Student (學生類別)
-
-儲存學生基本資料及已選修的課程清單。
-
-| 屬性名稱 (Attribute) | 資料型態 (Type) | 說明 |
-| :--- | :--- | :--- |
-| `student_id` | `str` | 學號 |
-| `name` | `str` | 學生姓名 |
-| `major` | `str` | 主修科系 |
-| `selected_courses` | `list[Course]` | 已選課程物件清單 |
-| `credit` | `int` | 已選課程總學分 |
-# Group 7 - F1功能模組_demo(F1.py)
-## 檔案結構
-```text
-.
-├── F1.py          # 主功能模組程式碼
-├── student.json   # 學生資料儲存檔
-└── course.json    # 課程資料儲存檔
 ```
-## 函式功能說明
-### 1. `InputStudent(`Is_Change`)`
-* **功能描述**：互動式引導使用者輸入學號、姓名、主修、選修課程與學分，並建立並回傳一個 `Student` 物件。
-* **參數**：
-  | 屬性名稱 (Attribute) | 資料型態 (Type) | 說明 |
-  | :--- | :--- | :--- |
-  | `Is_Change` | `bool` | 是否為修改模式 |
-* **回傳值**：
-  * (`Student`) - 建立完成的學生物件。
-### 2. `InputCourse(`Is_Change`)`
-* **功能描述**：互動式引導使用者輸入課程編號、課程名稱、課程學分、是否為必修課、指導教授、學生人數上限、上課教室、上課時間表（星期對應節次），並建立並回傳一個 `Course` 物件。
-* **參數**：
-  | 屬性名稱 (Attribute) | 資料型態 (Type) | 說明 |
-  | :--- | :--- | :--- |
-  | `Is_Change` | `bool` | 是否為修改模式 |
-* **回傳值**：
-  * (`Course`) - 建立完成的課程物件。
-    
-### 學生管理模組
-* **`CreateStudent()`**：引導使用者輸入學號、姓名、主修與學分，建立新學生並寫入 `student.json`。
-* **`DeleteStudent()`**：輸入學生 ID，從 `student.json` 中移除該學生資料。
-* **`ChangeStudent()`**：更新現有學生的資料內容。
-* **`SearchStudent()`**：輸入學生 ID，查詢並印出學生的資料與選修課程清單。
+python main.py                              # 執行程式（main.py 整合中）
+python -m pytest                            # 執行全部測試
+python -m pytest tests/test_time_rules.py   # 只測一個模組
+```
 
-### 課程管理模組
-* **`CreateCourse()`**：引導使用者輸入各項課程參數，建立新課程並寫入 `course.json`[cite: 4]。
-* **`DeleteCourse()`**：輸入課程 ID，從 `course.json` 中刪除指定的課程。
-* **`ChangeCourse()`**：更新現有課程的相關屬性。
-* **`SearchCourse()`**：輸入課程 ID，查詢並輸出課程資料與上課時間表。
----
+## 檔案地圖
+
+| 檔案 | 做什麼 | 對應需求 |
+|---|---|---|
+| `main.py` | 選單、輸入輸出；啟動時載入資料，修改後存檔 | — |
+| `data_formats.py` | 課程、學生、教室、選課紀錄的欄位，以及空的 db | 資料格式 |
+| `data_checks.py` | 檢查資料是否符合規則，一次回報所有錯誤 | F1-02～F1-05 |
+| `time_rules.py` | 節次轉換、星期和節次是否合法 | F1-05 |
+| `manage_courses.py` | 課程的新增、修改、刪除、取消、查詢 | F1-01、F1-06、F1-09 |
+| `manage_students.py` | 學生的新增、修改、刪除、查詢 | F1-01、F1-07 |
+| `manage_classrooms.py` | 教室的新增、修改、刪除、查詢 | F1-01 |
+| `save_load.py` | `data/` 的 JSON 檔和 db 互相轉換 | F6 |
+| `data/` | 資料檔 | — |
+| `tests/` | 自動化測試，檔名 `test_模組名稱.py` | — |
+
+## db 結構
+
+`main.py` 啟動時把資料載入成 `db`，再當參數傳給各函式。
+
+```python
+db = {
+    "courses":     {"CS102": Course(...)},
+    "students":    {"S001": Student(...)},
+    "classrooms":  {"EN201": Classroom(...)},
+    "enrollments": [Enrollment("S001", "CS102")],
+}
+```
+
+- 學生已選的課程、課程目前人數，都從 `enrollments` 計算。
+- `data/` 的 JSON 檔名和最外層鍵名都和 db 的 key 相同，例如 `courses.json` 是 `{"courses": {"CS102": {...}}}`。
+
+## 回傳慣例
+
+- 會修改 db 的函式回傳錯誤清單，`[]` 代表成功；有錯誤時 db 不變。
+- 查詢一筆回傳該物件，找不到回傳 `None`；查詢多筆回傳清單。
+- 錯誤訊息是一句中文並帶上出錯的值，例如 `"學分必須為正整數：0"`，文字照各函式的 docstring。
