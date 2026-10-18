@@ -118,7 +118,7 @@
             "is_required": true,
             "instructor": "韭老師",
             "students_limit": 15,
-            "classroom": "CN201",
+            "classroom": "CN101",
             "schedule": {"2": [1,2,3]},
         "BE101": {
             "course_name": "博弈心理學",
